@@ -5,7 +5,7 @@ public class MemberBean {
 	private String name;
 	private int age;
 	private String gender;
-	private String ssn;
+	private String ssn; //ssn
 	
 	public void setCustomNum(int customNum) {
 		this.customNum = customNum;
