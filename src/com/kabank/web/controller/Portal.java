@@ -15,7 +15,7 @@ public class Portal {
 		System.out.println(scanner);
 		int count = scanner.nextInt();
 		MemberService memberService = new MemberServiceImpl(scanner.nextInt());
- 		MemberBean member =null;
+ 		MemberBean member = null;
 		while (true){
 			System.out.print("[MENU] 0.종료 1.회원가입 2.계좌개설 3.총회원수 4.회원목록");
 			switch(scanner.nextInt()) {
@@ -58,4 +58,4 @@ public class Portal {
 			}
 		}
 	}
-}
+} //내가 미안하다
