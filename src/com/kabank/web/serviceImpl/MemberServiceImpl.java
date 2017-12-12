@@ -1,30 +1,25 @@
 package com.kabank.web.serviceImpl;
 
 import java.util.Calendar;
+import java.util.Vector;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
+import javax.swing.JOptionPane;
 
 import com.kabank.web.bean.MemberBean;
 import com.kabank.web.service.MemberService;
 
 public class MemberServiceImpl implements MemberService {
-	private MemberBean[] members;
+	private Vector<MemberBean>members;
 	private int count;
 
-	public MemberServiceImpl(int count) {
-		members = new MemberBean[count];
-		this.count = 0;
-	}
-
-	@Override
-	public int count() {
-		return this.count;
+	public MemberServiceImpl() {
+		members = new Vector<MemberBean>(10,10);
+		this.count = 1000;
 	}
 
 	@Override
 	public int createCustomNum() {
-		int foo = 0;
-		return foo;
+		return count++;
 	}
 
 	@Override
@@ -65,15 +60,74 @@ public class MemberServiceImpl implements MemberService {
 
 		return foo;
 	}
-
+	@Override
 	public void addMember(MemberBean member) {
-		members[count] = member;
-		count++;
-
+		members.add(member);
 	}
 
 	@Override
-	public MemberBean[] list() {
+	public Vector<MemberBean> list() {
 		return members;
 	}
+
+	@Override
+	public int count() {
+		return members.size();
+	}
+
+	@Override
+	public void deleteAll() {
+		members.clear();
+	}
+
+	@Override
+	public void delete(String id) {
+		String res = "";
+		for(int i = 0;i < members.size();i++) {
+			if(id.equals(members.get(i).getId())) {
+				members.removeElementAt(i);
+			}
+		}
+	}
+	
+	@Override
+	public String login(MemberBean member) {
+		String res ="ID가 존재하지 않습니다.";		
+		for(int i = 0; i < members.size(); i++) {		
+			if(member.getId().equals(members.get(i).getId())) {
+			 res = (member.getPass().equals(members.get(i).getPass())) ? "로그인 성공":"PASS를 다시 입력하세요." ;
+			 return res;          //break는 회사 찍고 퇴근  return res 는회사 안오고 바로 퇴근
+			/*if(member.getPass().equals(members.get(i).getPass())) {  	
+					res = "로그인 성공";
+					break;
+				}else {
+					res = "pass를 다시 입력하세요.";
+				break; }     삼항으로 변경**/ 
+			}
+		}
+			return res;
+	}
+
+	@Override
+	public MemberBean findById(String showInputDialog) {
+		MemberBean m = new MemberBean();        //return 타입 젤 먼저
+		for(int i = 0; i < members.size(); i++) {
+			if(showInputDialog.equals(members.get(i).getId())) {
+				m = members.get(i);
+				return m;
+			}
+		}
+		return m;
+	}
+	@Override
+	public Vector<MemberBean> findByName(String showInputDialog) {
+		Vector<MemberBean> b = new Vector<MemberBean>(10,10);
+		for(int i = 0; i < members.size(); i++) {
+				if(showInputDialog.equals(members.get(i).getName())) {
+					b.add(members.get(i));
+				}
+			}
+		return b;
+	}
+
 }
